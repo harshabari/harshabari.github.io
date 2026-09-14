@@ -1,11 +1,11 @@
 /**
- * Harshal Bari - CAD Design Specialist Portfolio
- * Interactive 3D Canvas Simulator, Project Filter, Estimator, and UI Interactions
+ * Harshal Bari - Mechanical CAD Specialist Portfolio
+ * Interactive Multi-Geometry 3D CAD Workbench, Project Filter, Estimator & Interactions
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
-  initCadCanvas();
+  initCadWorkbench();
   initProjectFilters();
   initProjectModal();
   initEstimator();
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   1. Navigation & Smooth Scroll
+   1. Navigation & Smooth Scroll Spy
    ========================================================================== */
 function initNavigation() {
   const mobileToggle = document.getElementById('mobileToggle');
@@ -34,7 +34,6 @@ function initNavigation() {
     });
   }
 
-  // Active section tracking on scroll
   const sections = document.querySelectorAll('section[id]');
   window.addEventListener('scroll', () => {
     const scrollY = window.pageYOffset + 120;
@@ -55,9 +54,9 @@ function initNavigation() {
 }
 
 /* ==========================================================================
-   2. Interactive 3D CAD Canvas Simulator
+   2. Interactive Multi-Model 3D CAD Workbench
    ========================================================================== */
-function initCadCanvas() {
+function initCadWorkbench() {
   const canvas = document.getElementById('cadCanvas');
   if (!canvas) return;
 
@@ -66,60 +65,174 @@ function initCadCanvas() {
 
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
-    width = canvas.width = rect.width * window.devicePixelRatio || 600;
-    height = canvas.height = rect.height * window.devicePixelRatio || 450;
+    width = canvas.width = rect.width * (window.devicePixelRatio || 1);
+    height = canvas.height = rect.height * (window.devicePixelRatio || 1);
   }
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  // 3D Geometry: Industrial Structural Bracket / Manifold Flange
-  // Vertices (x, y, z)
-  const baseVertices = [
-    // Base plate (rectangle with cutout)
-    [-1.2, -0.3, -1.2], [1.2, -0.3, -1.2], [1.2, -0.3, 1.2], [-1.2, -0.3, 1.2],
-    [-1.2,  0.0, -1.2], [1.2,  0.0, -1.2], [1.2,  0.0, 1.2], [-1.2,  0.0, 1.2],
-    // Central vertical column / boss
-    [-0.5, 0.0, -0.5], [0.5, 0.0, -0.5], [0.5, 0.0, 0.5], [-0.5, 0.0, 0.5],
-    [-0.5, 1.2, -0.5], [0.5, 1.2, -0.5], [0.5, 1.2, 0.5], [-0.5, 1.2, 0.5],
-    // Top flange
-    [-0.8, 1.2, -0.8], [0.8, 1.2, -0.8], [0.8, 1.2, 0.8], [-0.8, 1.2, 0.8],
-    [-0.8, 1.4, -0.8], [0.8, 1.4, -0.8], [0.8, 1.4, 0.8], [-0.8, 1.4, 0.8],
-    // Reinforcing Gussets / Ribs (Weldment feature)
-    [0.0, 0.0, -1.1], [0.0, 1.0, -0.5], [0.0, 0.0, -0.5],
-    [0.0, 0.0,  1.1], [0.0, 1.0,  0.5], [0.0, 0.0,  0.5],
-    [-1.1, 0.0, 0.0], [-0.5, 1.0, 0.0], [-0.5, 0.0, 0.0],
-    [ 1.1, 0.0, 0.0], [ 0.5, 1.0, 0.0], [ 0.5, 0.0, 0.0]
-  ];
+  // Model 1: Structural Flange & Gusset (Weldment)
+  const bracketModel = {
+    name: "STRUCTURAL_GUSSET_FLANGE.SLDPRT",
+    type: "Weldment & Cast Assembly",
+    standard: "ISO 5211 / ASME B16.5",
+    tolerance: "ISO 2768-mK",
+    vertices: [
+      [-1.2, -0.3, -1.2], [1.2, -0.3, -1.2], [1.2, -0.3, 1.2], [-1.2, -0.3, 1.2],
+      [-1.2,  0.0, -1.2], [1.2,  0.0, -1.2], [1.2,  0.0, 1.2], [-1.2,  0.0, 1.2],
+      [-0.5, 0.0, -0.5], [0.5, 0.0, -0.5], [0.5, 0.0, 0.5], [-0.5, 0.0, 0.5],
+      [-0.5, 1.2, -0.5], [0.5, 1.2, -0.5], [0.5, 1.2, 0.5], [-0.5, 1.2, 0.5],
+      [-0.8, 1.2, -0.8], [0.8, 1.2, -0.8], [0.8, 1.2, 0.8], [-0.8, 1.2, 0.8],
+      [-0.8, 1.4, -0.8], [0.8, 1.4, -0.8], [0.8, 1.4, 0.8], [-0.8, 1.4, 0.8],
+      [0.0, 0.0, -1.1], [0.0, 1.0, -0.5], [0.0, 0.0, -0.5],
+      [0.0, 0.0,  1.1], [0.0, 1.0,  0.5], [0.0, 0.0,  0.5],
+      [-1.1, 0.0, 0.0], [-0.5, 1.0, 0.0], [-0.5, 0.0, 0.0],
+      [ 1.1, 0.0, 0.0], [ 0.5, 1.0, 0.0], [ 0.5, 0.0, 0.0]
+    ],
+    faces: [
+      [0, 1, 2, 3], [4, 5, 6, 7],
+      [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7],
+      [8, 9, 13, 12], [9, 10, 14, 13], [10, 11, 15, 14], [11, 8, 12, 15],
+      [16, 17, 18, 19], [20, 21, 22, 23],
+      [16, 17, 21, 20], [17, 18, 22, 21], [18, 19, 23, 22], [19, 16, 20, 23],
+      [24, 25, 26], [27, 28, 29], [30, 31, 32], [33, 34, 35]
+    ]
+  };
 
-  // Quad & Triangle Faces
-  const faces = [
-    // Base plate bottom & top
-    [0, 1, 2, 3], [4, 5, 6, 7],
-    // Base plate sides
-    [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7],
-    // Central cylinder/box
-    [8, 9, 13, 12], [9, 10, 14, 13], [10, 11, 15, 14], [11, 8, 12, 15],
-    // Top flange bottom & top
-    [16, 17, 18, 19], [20, 21, 22, 23],
-    // Top flange sides
-    [16, 17, 21, 20], [17, 18, 22, 21], [18, 19, 23, 22], [19, 16, 20, 23],
-    // Gusset triangles
-    [24, 25, 26], [27, 28, 29], [30, 31, 32], [33, 34, 35]
-  ];
+  // Model 2: Parametric Spur Gear (Machined Part)
+  function createSpurGearModel() {
+    const teeth = 12;
+    const rOuter = 1.3;
+    const rRoot = 0.88;
+    const thickness = 0.45;
+    const verts = [];
+    const fcs = [];
+
+    // Generate tooth profile vertices (bottom ring: y = -thickness/2, top ring: y = thickness/2)
+    for (let t = 0; t < 2; t++) {
+      const y = t === 0 ? -thickness / 2 : thickness / 2;
+      for (let i = 0; i < teeth; i++) {
+        const a1 = (i * 2 * Math.PI) / teeth;
+        const a2 = a1 + (Math.PI / teeth) * 0.35;
+        const a3 = a1 + (Math.PI / teeth) * 0.65;
+        const a4 = a1 + (Math.PI / teeth);
+
+        // root 1, tip 1, tip 2, root 2
+        verts.push([Math.cos(a1) * rRoot, y, Math.sin(a1) * rRoot]);
+        verts.push([Math.cos(a2) * rOuter, y, Math.sin(a2) * rOuter]);
+        verts.push([Math.cos(a3) * rOuter, y, Math.sin(a3) * rOuter]);
+        verts.push([Math.cos(a4) * rRoot, y, Math.sin(a4) * rRoot]);
+      }
+      // Hub center hole
+      for (let i = 0; i < 8; i++) {
+        const a = (i * 2 * Math.PI) / 8;
+        verts.push([Math.cos(a) * 0.35, y, Math.sin(a) * 0.35]);
+      }
+    }
+
+    const nToothVerts = teeth * 4;
+    // Side faces for teeth
+    for (let i = 0; i < nToothVerts; i++) {
+      const next = (i + 1) % nToothVerts;
+      fcs.push([i, next, nToothVerts + 8 + next, nToothVerts + 8 + i]);
+    }
+
+    // Top and bottom cap segments
+    for (let i = 0; i < nToothVerts; i += 2) {
+      const next = (i + 2) % nToothVerts;
+      fcs.push([i, i + 1, next]);
+      fcs.push([nToothVerts + 8 + i, nToothVerts + 8 + next, nToothVerts + 8 + i + 1]);
+    }
+
+    return {
+      name: "INVOLUTE_SPUR_GEAR_MOD2.5.SLDPRT",
+      type: "Power Transmission",
+      standard: "DIN 3962 / AGMA 2000",
+      tolerance: "Grade 7 (DIN)",
+      vertices: verts,
+      faces: fcs
+    };
+  }
+
+  // Model 3: Precision Split Bearing Housing
+  const bearingModel = {
+    name: "PILLOW_BLOCK_HOUSING_P205.SLDPRT",
+    type: "Cast & Machined Housing",
+    standard: "ISO 113 / JIS B1559",
+    tolerance: "H7 / k6 Fitment",
+    vertices: [
+      // Base foot
+      [-1.4, -0.4, -0.7], [1.4, -0.4, -0.7], [1.4, -0.4, 0.7], [-1.4, -0.4, 0.7],
+      [-1.4, -0.1, -0.7], [1.4, -0.1, -0.7], [1.4, -0.1, 0.7], [-1.4, -0.1, 0.7],
+      // Central arched housing
+      [-0.8, -0.1, -0.5], [0.8, -0.1, -0.5], [0.8, -0.1, 0.5], [-0.8, -0.1, 0.5],
+      [-0.8,  0.8, -0.5], [0.8,  0.8, -0.5], [0.8,  0.8, 0.5], [-0.8,  0.8, 0.5],
+      [-0.4,  1.3, -0.5], [0.4,  1.3, -0.5], [0.4,  1.3, 0.5], [-0.4,  1.3, 0.5],
+      // Bore indicators
+      [0.0, 0.6, -0.52], [0.0, 0.6, 0.52]
+    ],
+    faces: [
+      [0, 1, 2, 3], [4, 5, 6, 7],
+      [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7],
+      [8, 9, 13, 12], [9, 10, 14, 13], [10, 11, 15, 14], [11, 8, 12, 15],
+      [12, 13, 17, 16], [13, 14, 18, 17], [14, 15, 19, 18], [15, 12, 16, 19],
+      [16, 17, 18, 19]
+    ]
+  };
+
+  const gearModel = createSpurGearModel();
+  const models = {
+    bracket: bracketModel,
+    gear: gearModel,
+    bearing: bearingModel
+  };
+
+  let currentModelKey = 'bracket';
+  let activeModel = models[currentModelKey];
 
   let rotX = 0.5;
-  let rotY = 0.8;
+  let rotY = 0.75;
   let autoRotate = true;
-  let renderMode = 'solid'; // 'wireframe' | 'solid' | 'blueprint'
+  let renderMode = 'solid'; // 'solid' | 'wireframe' | 'blueprint'
   let isDragging = false;
-  let prevMouseX = 0;
-  let prevMouseY = 0;
+  let prevX = 0;
+  let prevY = 0;
 
-  // View Mode Buttons
-  const modeButtons = document.querySelectorAll('.ctrl-btn[data-mode]');
-  modeButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      modeButtons.forEach(b => b.classList.remove('active'));
+  // UI elements update
+  function updateModelSpecs(m) {
+    const titleEl = document.getElementById('activeModelName');
+    const typeEl = document.getElementById('specModelType');
+    const stdEl = document.getElementById('specModelStandard');
+    const tolEl = document.getElementById('specModelTol');
+    const vertEl = document.getElementById('specVertCount');
+    const faceEl = document.getElementById('specFaceCount');
+
+    if (titleEl) titleEl.textContent = m.name;
+    if (typeEl) typeEl.textContent = m.type;
+    if (stdEl) stdEl.textContent = m.standard;
+    if (tolEl) tolEl.textContent = m.tolerance;
+    if (vertEl) vertEl.textContent = m.vertices.length;
+    if (faceEl) faceEl.textContent = m.faces.length;
+  }
+  updateModelSpecs(activeModel);
+
+  // Model selection buttons
+  const modelBtns = document.querySelectorAll('.model-sel-btn');
+  modelBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modelBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentModelKey = btn.dataset.model;
+      activeModel = models[currentModelKey];
+      updateModelSpecs(activeModel);
+    });
+  });
+
+  // View modes
+  const modeBtns = document.querySelectorAll('.vp-btn[data-mode]');
+  modeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modeBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       renderMode = btn.dataset.mode;
     });
@@ -138,61 +251,60 @@ function initCadCanvas() {
   if (resetViewBtn) {
     resetViewBtn.addEventListener('click', () => {
       rotX = 0.5;
-      rotY = 0.8;
+      rotY = 0.75;
     });
   }
 
-  // Mouse & Touch Interaction
-  canvas.addEventListener('mousedown', (e) => {
+  // Mouse & Touch Controls
+  canvas.addEventListener('mousedown', e => {
     isDragging = true;
-    prevMouseX = e.clientX;
-    prevMouseY = e.clientY;
+    prevX = e.clientX;
+    prevY = e.clientY;
   });
 
   window.addEventListener('mouseup', () => { isDragging = false; });
 
-  canvas.addEventListener('mousemove', (e) => {
+  canvas.addEventListener('mousemove', e => {
     if (!isDragging) return;
-    const dx = e.clientX - prevMouseX;
-    const dy = e.clientY - prevMouseY;
+    const dx = e.clientX - prevX;
+    const dy = e.clientY - prevY;
     rotY += dx * 0.01;
     rotX += dy * 0.01;
-    prevMouseX = e.clientX;
-    prevMouseY = e.clientY;
+    prevX = e.clientX;
+    prevY = e.clientY;
   });
 
-  canvas.addEventListener('touchstart', (e) => {
+  canvas.addEventListener('touchstart', e => {
     if (e.touches.length === 1) {
       isDragging = true;
-      prevMouseX = e.touches[0].clientX;
-      prevMouseY = e.touches[0].clientY;
+      prevX = e.touches[0].clientX;
+      prevY = e.touches[0].clientY;
     }
   }, { passive: true });
 
-  canvas.addEventListener('touchmove', (e) => {
+  canvas.addEventListener('touchmove', e => {
     if (!isDragging || e.touches.length !== 1) return;
-    const dx = e.touches[0].clientX - prevMouseX;
-    const dy = e.touches[0].clientY - prevMouseY;
+    const dx = e.touches[0].clientX - prevX;
+    const dy = e.touches[0].clientY - prevY;
     rotY += dx * 0.015;
     rotX += dy * 0.015;
-    prevMouseX = e.touches[0].clientX;
-    prevMouseY = e.touches[0].clientY;
+    prevX = e.touches[0].clientX;
+    prevY = e.touches[0].clientY;
   }, { passive: true });
 
   window.addEventListener('touchend', () => { isDragging = false; });
 
-  // Render Loop
+  // Main Render Loop
   function render() {
     if (autoRotate && !isDragging) {
-      rotY += 0.008;
+      rotY += 0.007;
     }
 
     ctx.clearRect(0, 0, width, height);
 
-    // Draw Isometric Grid on Canvas background
-    drawGrid(ctx, width, height);
+    // Millimeter blueprint grid
+    drawCadGrid(ctx, width, height);
 
-    // 3D Projection Matrices
     const cosX = Math.cos(rotX);
     const sinX = Math.sin(rotX);
     const cosY = Math.cos(rotY);
@@ -202,19 +314,15 @@ function initCadCanvas() {
     const centerX = width / 2;
     const centerY = height / 2;
 
-    // Transform vertices
-    const transformed = baseVertices.map(v => {
-      // Rotate Y
+    const transformed = activeModel.vertices.map(v => {
       const x1 = v[0] * cosY + v[2] * sinY;
       const y1 = v[1];
       const z1 = -v[0] * sinY + v[2] * cosY;
 
-      // Rotate X
       const x2 = x1;
       const y2 = y1 * cosX - z1 * sinX;
       const z2 = y1 * sinX + z1 * cosX;
 
-      // Perspective Projection
       const fov = 4.5;
       const p = fov / (fov + z2);
       return {
@@ -224,24 +332,27 @@ function initCadCanvas() {
       };
     });
 
-    // Update HUD Coordinates
     const hudCoords = document.getElementById('hudCoords');
     if (hudCoords) {
-      hudCoords.textContent = `X: ${(rotX * 180 / Math.PI % 360).toFixed(1)}° | Y: ${(rotY * 180 / Math.PI % 360).toFixed(1)}° | SCALE: 1:1 DFM`;
+      hudCoords.textContent = `RX: ${(rotX * 180 / Math.PI % 360).toFixed(1)}° | RY: ${(rotY * 180 / Math.PI % 360).toFixed(1)}° | DFM: PASS`;
     }
 
     // Sort faces by depth
-    const faceDepths = faces.map((face, index) => {
+    const faceDepths = activeModel.faces.map((face, index) => {
       let avgZ = 0;
-      face.forEach(vIdx => { avgZ += transformed[vIdx].z; });
+      face.forEach(vIdx => {
+        if (transformed[vIdx]) avgZ += transformed[vIdx].z;
+      });
       avgZ /= face.length;
       return { index, depth: avgZ };
     });
     faceDepths.sort((a, b) => b.depth - a.depth);
 
-    // Render Faces
+    // Draw faces
     faceDepths.forEach(f => {
-      const face = faces[f.index];
+      const face = activeModel.faces[f.index];
+      if (!face || face.length < 3) return;
+
       ctx.beginPath();
       ctx.moveTo(transformed[face[0]].x, transformed[face[0]].y);
       for (let i = 1; i < face.length; i++) {
@@ -250,40 +361,39 @@ function initCadCanvas() {
       ctx.closePath();
 
       if (renderMode === 'solid') {
-        // Calculate fake lighting normal
         const v0 = transformed[face[0]];
         const v1 = transformed[face[1]];
         const v2 = transformed[face[2]];
         const normalZ = (v1.x - v0.x) * (v2.y - v0.y) - (v1.y - v0.y) * (v2.x - v0.x);
-        const shade = Math.max(0.15, Math.min(0.9, (normalZ / 12000) * 0.5 + 0.5));
-        
-        ctx.fillStyle = `rgba(${Math.floor(15 + shade * 35)}, ${Math.floor(30 + shade * 120)}, ${Math.floor(60 + shade * 180)}, 0.85)`;
+        const shade = Math.max(0.12, Math.min(0.95, (normalZ / 14000) * 0.5 + 0.5));
+
+        ctx.fillStyle = `rgba(${Math.floor(10 + shade * 25)}, ${Math.floor(25 + shade * 110)}, ${Math.floor(55 + shade * 180)}, 0.88)`;
         ctx.fill();
 
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#00d2ff';
+        ctx.lineWidth = 1.1;
         ctx.stroke();
       } else if (renderMode === 'wireframe') {
-        ctx.strokeStyle = '#38bdf8';
+        ctx.strokeStyle = '#00d2ff';
         ctx.lineWidth = 1.0;
         ctx.stroke();
       } else if (renderMode === 'blueprint') {
-        ctx.fillStyle = 'rgba(2, 132, 199, 0.12)';
+        ctx.fillStyle = 'rgba(2, 132, 199, 0.1)';
         ctx.fill();
-        ctx.strokeStyle = '#60a5fa';
-        ctx.lineWidth = 1.4;
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 1.3;
         ctx.setLineDash([4, 2]);
         ctx.stroke();
         ctx.setLineDash([]);
       }
     });
 
-    // Vertex points in blueprint/wireframe mode
+    // Draw vertex pins in wireframe/blueprint
     if (renderMode !== 'solid') {
-      ctx.fillStyle = '#38bdf8';
+      ctx.fillStyle = '#00d2ff';
       transformed.forEach(v => {
         ctx.beginPath();
-        ctx.arc(v.x, v.y, 2.5, 0, Math.PI * 2);
+        ctx.arc(v.x, v.y, 2.2, 0, Math.PI * 2);
         ctx.fill();
       });
     }
@@ -291,11 +401,11 @@ function initCadCanvas() {
     requestAnimationFrame(render);
   }
 
-  function drawGrid(context, w, h) {
+  function drawCadGrid(context, w, h) {
     context.save();
-    context.strokeStyle = 'rgba(56, 189, 248, 0.05)';
+    context.strokeStyle = 'rgba(0, 210, 255, 0.04)';
     context.lineWidth = 1;
-    const step = 30;
+    const step = 28;
     for (let x = 0; x < w; x += step) {
       context.beginPath();
       context.moveTo(x, 0);
@@ -318,8 +428,8 @@ function initCadCanvas() {
    3. Project Filters
    ========================================================================== */
 function initProjectFilters() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const projectCards = document.querySelectorAll('.project-card');
+  const filterBtns = document.querySelectorAll('.eng-filter-btn');
+  const projectCards = document.querySelectorAll('.blueprint-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -327,7 +437,6 @@ function initProjectFilters() {
       btn.classList.add('active');
 
       const filter = btn.dataset.filter;
-
       projectCards.forEach(card => {
         if (filter === 'all' || card.dataset.category === filter) {
           card.style.display = 'flex';
@@ -344,12 +453,12 @@ function initProjectFilters() {
 /* ==========================================================================
    4. Project Modal Case Studies
    ========================================================================== */
-const projectData = {
+const engineeringProjectData = {
   furnace: {
     title: "Boiler Furnace Structure Design",
     category: "Industrial & Structural Weldments",
     software: "SOLIDWORKS (Weldments, Assembly, 2D Drafting)",
-    overview: "Comprehensive 3D parametric structural design of an industrial boiler furnace framework engineered to sustain extreme operational thermal stresses, mechanical load distribution, and stringent industrial safety margins.",
+    overview: "Complete 3D parametric structural design of an industrial boiler furnace framework engineered to sustain extreme operational thermal stresses, mechanical load distribution, and stringent industrial safety margins.",
     highlights: [
       "Engineered structural framing members using SOLIDWORKS Weldments with custom standard profiles (beams, angles, channels).",
       "Created complete parametric 3D models for fabricated structural trusses, bracing, and mounting brackets.",
@@ -435,7 +544,7 @@ function initProjectModal() {
   detailsBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const projectId = btn.dataset.project;
-      const data = projectData[projectId];
+      const data = engineeringProjectData[projectId];
       if (!data) return;
 
       document.getElementById('modalCategory').textContent = data.category;
@@ -463,10 +572,10 @@ function initProjectModal() {
   };
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  modalBackdrop.addEventListener('click', (e) => {
+  modalBackdrop.addEventListener('click', e => {
     if (e.target === modalBackdrop) closeModal();
   });
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modalBackdrop.classList.contains('active')) closeModal();
   });
 }
@@ -521,30 +630,29 @@ function initEstimator() {
       deliverablesList.push("2D Manufacturing Blueprints (GD&T, BOM, Title Block)");
     }
     if (stepCheck && stepCheck.checked) {
-      deliverablesList.push("Universal STEP / IGES / STL Files");
+      deliverablesList.push("Universal Neutral STEP / IGES / 3D Print STL");
     }
 
     if (estTimeDisplay) estTimeDisplay.textContent = timeline;
     if (estDeliverablesDisplay) estDeliverablesDisplay.textContent = deliverablesList.join(" + ");
 
-    // Setup WhatsApp and Email links
     const phone = "919665104477";
     const email = "harshalbari132002@gmail.com";
     const projectTypeName = projectTypeSelect.options[projectTypeSelect.selectedIndex].text;
 
     const message = `Hello Harshal, I am interested in your Freelance CAD Design services.\n\n` +
-      `*Project Type:* ${projectTypeName}\n` +
-      `*Parts Scope:* ${parts}\n` +
+      `*Service Required:* ${projectTypeName}\n` +
+      `*Component Scope:* ${parts}\n` +
       `*Required Timeline:* ${timeline}\n` +
-      `*Deliverables:* ${deliverablesList.join(", ")}\n\n` +
-      `Please let me know your availability to discuss further.`;
+      `*Deliverables Needed:* ${deliverablesList.join(", ")}\n\n` +
+      `Please let me know your availability to review my requirements.`;
 
     if (whatsappQuoteBtn) {
       whatsappQuoteBtn.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     }
 
     if (emailQuoteBtn) {
-      const subject = `Freelance CAD Inquiry: ${projectTypeName}`;
+      const subject = `CAD Engineering Inquiry: ${projectTypeName}`;
       emailQuoteBtn.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     }
   }
@@ -565,7 +673,7 @@ function initContactForm() {
   const formSuccess = document.getElementById('formSuccess');
 
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', e => {
       e.preventDefault();
       const name = document.getElementById('clientName').value;
       const email = document.getElementById('clientEmail').value;
@@ -573,10 +681,9 @@ function initContactForm() {
       const message = document.getElementById('clientMessage').value;
 
       const recipient = "harshalbari132002@gmail.com";
-      const subject = `New CAD Project Inquiry from ${name} [${service}]`;
+      const subject = `CAD Project Inquiry from ${name} [${service}]`;
       const body = `Name: ${name}\nEmail: ${email}\nService Required: ${service}\n\nProject Details:\n${message}`;
 
-      // Open email client
       window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
       if (formSuccess) {
