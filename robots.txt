@@ -1,0 +1,6 @@
+# Robots.txt for Harshal Bari Portfolio
+User-agent: *
+Allow: /
+
+# XML Sitemap Location
+Sitemap: https://harshabari.github.io/sitemap.xml
