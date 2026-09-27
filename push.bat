@@ -18,7 +18,7 @@ if %ERRORLEVEL% neq 0 (
 )
 
 echo.
-echo Pushing branch 'main' to https://github.com/harshabari/harshabari.git ...
+echo Pushing branch 'main' to https://github.com/harshabari/harshabari.github.io.git ...
 echo.
 
 git push -u origin main
@@ -27,7 +27,7 @@ echo.
 if %ERRORLEVEL% equ 0 (
     echo =======================================================
     echo   SUCCESS! All changes pushed to GitHub!
-    echo   Repository: https://github.com/harshabari/harshabari
+    echo   Repository: https://github.com/harshabari/harshabari.github.io
     echo =======================================================
 ) else (
     echo =======================================================
