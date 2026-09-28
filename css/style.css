@@ -306,6 +306,43 @@ button, input, select, textarea {
   box-shadow: 0 4px 16px rgba(18, 140, 126, 0.4);
 }
 
+.btn-linkedin {
+  background: #0a66c2;
+  color: #ffffff;
+}
+
+.btn-linkedin:hover {
+  background: #004182;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(10, 102, 194, 0.5);
+  color: #ffffff;
+}
+
+.btn-linkedin-outline {
+  background: rgba(10, 102, 194, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+}
+
+.btn-linkedin-outline:hover {
+  background: #0a66c2;
+  color: #ffffff;
+  border-color: #0a66c2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(10, 102, 194, 0.45);
+}
+
+.nav-linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  text-decoration: none;
+}
+
 .btn-sm {
   padding: 0.55rem 1.15rem;
   font-size: 0.84rem;
@@ -1814,5 +1851,14 @@ button, input, select, textarea {
   .hero-metrics {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .nav-linkedin-btn span {
+    display: none;
+  }
+  .nav-linkedin-btn {
+    padding: 0.5rem 0.55rem;
   }
 }
