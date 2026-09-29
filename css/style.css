@@ -332,6 +332,20 @@ button, input, select, textarea {
   box-shadow: 0 4px 18px rgba(10, 102, 194, 0.45);
 }
 
+.btn-instagram-outline {
+  background: rgba(225, 48, 108, 0.12);
+  color: #f43f5e;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+}
+
+.btn-instagram-outline:hover {
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  color: #ffffff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(225, 48, 108, 0.45);
+}
+
 .nav-linkedin-btn {
   display: inline-flex;
   align-items: center;
